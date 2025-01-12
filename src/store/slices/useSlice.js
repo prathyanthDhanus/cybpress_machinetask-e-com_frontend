@@ -1,9 +1,10 @@
-// src/redux/slices/userSlice.js
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: null,
-  token: null,
+  accessToken: localStorage.getItem('accessToken') || null,
+  refreshToken: localStorage.getItem('refreshToken') || null, 
 };
 
 const userSlice = createSlice({
@@ -12,11 +13,21 @@ const userSlice = createSlice({
   reducers: {
     loginUser(state, action) {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      
+      // Save accessToken and refreshToken to localStorage when user logs in
+      localStorage.setItem('accessToken', action.payload.accessToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
     logoutUser(state) {
       state.user = null;
-      state.token = null;
+      state.accessToken = null;
+      state.refreshToken = null;
+      
+      // Remove tokens from localStorage when user logs out
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
     },
   },
 });

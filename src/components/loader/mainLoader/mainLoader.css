@@ -10,9 +10,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
+    width: 170vh;
     gap: 6px;
-    height: 100px;
+    height: 40vw;
   }
   
   .loading span {

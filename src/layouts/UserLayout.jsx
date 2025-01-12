@@ -1,24 +1,24 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { Box } from "@mui/material";
 
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 
 const UserLayout = () => {
+  const location = useLocation();
+  const hideNavbarFooter = ["/login", "/register"].includes(location.pathname);
+
   return (
-    <>
-      <div>
-        <Navbar />
-      </div>
+    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Box sx={{ flexShrink: 0 }}>{!hideNavbarFooter && <Navbar />}</Box>
 
-      <div>
+      <Box sx={{ flex: 1 }}>
         <Outlet />
-      </div>
+      </Box>
 
-      <div>
-        <Footer />
-      </div>
-    </>
+      <Box sx={{ flexShrink: 0 }}>{!hideNavbarFooter && <Footer />}</Box>
+    </Box>
   );
 };
 
