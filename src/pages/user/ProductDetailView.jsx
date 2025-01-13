@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -8,12 +8,17 @@ import {
   Box,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { useDispatch } from "react-redux";
 
 import { useFetchProductById } from "../../services/product";
 import CustomButton from "../../components/buttons/CustomButton";
+import { setSelectedProduct } from "../../store/slices/productSlice";
+
 
 const ProductDetailView = () => {
   const { productId } = useParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { data: product, isLoading, isError } = useFetchProductById(productId);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [mainImage, setMainImage] = useState("");
@@ -22,24 +27,30 @@ const ProductDetailView = () => {
   useEffect(() => {
     if (product?.variants?.length > 0) {
       setSelectedVariant(product.variants[0]);
-      setMainImage(product.variants[0]?.images[0]?.url); // Set the first image as the main image
+      setMainImage(product.variants[0]?.images[0]?.url); 
     }
   }, [product]);
 
   const handleVariantClick = (variant) => {
     setSelectedVariant(variant);
-    setMainImage(variant.images[0]?.url); // Set the first image of the selected variant as the main image
+    setMainImage(variant.images[0]?.url); 
   };
 
   const handleThumbnailClick = (imageUrl) => {
-    setMainImage(imageUrl); // Update the main image when a thumbnail is clicked
+    setMainImage(imageUrl);
+  };
+
+
+  const handleBuyNow = () => {
+    dispatch(setSelectedProduct(product)); 
+    navigate("/checkout"); 
   };
 
   if (isLoading) return <div>Loading product...</div>;
   if (isError) return <div>Failed to load product.</div>;
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container  sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={4}>
       
 
@@ -129,7 +140,7 @@ const ProductDetailView = () => {
 
           {/* Actions */}
           <Box sx={{ mt: 4, display: "flex", width: "100%", gap: "2rem" }}>
-            <CustomButton text="Buy Now" color="primary" />
+            <CustomButton text="Buy Now" color="primary" onClick={handleBuyNow}  />
             <CustomButton
               text="Add To Cart"
               sx={{

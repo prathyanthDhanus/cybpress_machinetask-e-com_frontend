@@ -19,7 +19,7 @@ const ViewAllProducts = () => {
   return (
     <>
       <Container fixed>
-        <Box m={4}>
+        <Box >
           <Grid container spacing={3}>
             {products.map((product) => (
               <Grid item xs={12} sm={12} md={4} lg={3} key={product._id}>

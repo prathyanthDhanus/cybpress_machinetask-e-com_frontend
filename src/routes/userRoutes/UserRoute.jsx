@@ -12,6 +12,7 @@ const Register = lazy(() => import("../../pages/auth/RegisterPage"));
 const HomePage = lazy(() => import("../../pages/user/HomePage"));
 const ViewAllProducts  = lazy(() => import("../../pages/user/ViewAllProducts"));
 const ProductDetailView = lazy(() => import("../../pages/user/ProductDetailView"));
+const Checkout = lazy(() => import("../../pages/user/Checkout"));
 
 export const userRouter = createBrowserRouter([
   {
@@ -70,6 +71,14 @@ export const userRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<MainLoader />}>
             <ProductDetailView />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/checkout",
+        element: (
+          <Suspense fallback={<MainLoader />}>
+            <Checkout />
           </Suspense>
         ),
       },
