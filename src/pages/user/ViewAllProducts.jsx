@@ -12,7 +12,7 @@ const ViewAllProducts = () => {
   const navigate = useNavigate();
   const { categoryId } = useParams();
   const { products } = useSelector((state) => state.product);
-  console.log("products", products);
+//   console.log("products", products);
   const { isLoading, isError } = useFetchAllProducts(categoryId);
   if (isLoading) return <div>Loading categories...</div>;
   if (isError) return <div>Failed to load categories.</div>;

@@ -4,22 +4,13 @@ import { Button, Typography, Paper, Divider } from "@mui/material";
 // Success Toast
 export const showSuccessToast = (message, duration = 4000) => {
   toast.success(
-    <Paper
-      elevation={3}
-      style={{
-        background: "#4CAF50",
-        color: "#fff",
-        padding: "16px",
-        borderRadius: "8px",
-      }}
+    <Typography
+      variant="body1"
+      style={{ fontFamily: "Poppins, sans-serif", fontWeight: "regular" }}
     >
-      <Typography
-        variant="body1"
-        style={{ fontFamily: "Poppins, sans-serif", fontWeight: "bold" }}
-      >
-        {message}
-      </Typography>
-    </Paper>,
+      {message}
+    </Typography>,
+
     {
       duration,
     }
@@ -29,22 +20,14 @@ export const showSuccessToast = (message, duration = 4000) => {
 // Error Toast
 export const showErrorToast = (message, duration = 4000) => {
   toast.error(
-    <Paper
-      elevation={3}
-      style={{
-        background: "#F44336",
-        color: "#fff",
-        padding: "16px",
-        borderRadius: "8px",
-      }}
-    >
+   
       <Typography
         variant="body1"
-        style={{ fontFamily: "Poppins, sans-serif", fontWeight: "bold" }}
+        style={{ fontFamily: "Poppins, sans-serif", fontWeight: "regular" }}
       >
         {message}
       </Typography>
-    </Paper>,
+   ,
     {
       duration,
     }
@@ -70,7 +53,7 @@ export const showConfirmationToast = (
     >
       <Typography
         variant="body1"
-        style={{ fontFamily: "Poppins, sans-serif", fontWeight: "bold" }}
+        style={{ fontFamily: "Poppins, sans-serif", fontWeight: "regular" }}
       >
         {message}
       </Typography>

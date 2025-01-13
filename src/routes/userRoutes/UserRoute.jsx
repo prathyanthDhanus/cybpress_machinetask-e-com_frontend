@@ -13,6 +13,7 @@ const HomePage = lazy(() => import("../../pages/user/HomePage"));
 const ViewAllProducts  = lazy(() => import("../../pages/user/ViewAllProducts"));
 const ProductDetailView = lazy(() => import("../../pages/user/ProductDetailView"));
 const Checkout = lazy(() => import("../../pages/user/Checkout"));
+const ViewCart = lazy(() => import("../../pages/user/ViewCart"));
 
 export const userRouter = createBrowserRouter([
   {
@@ -75,10 +76,18 @@ export const userRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/checkout",
+        path: "/checkout/:id",
         element: (
           <Suspense fallback={<MainLoader />}>
             <Checkout />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <Suspense fallback={<MainLoader />}>
+            <ViewCart />
           </Suspense>
         ),
       },

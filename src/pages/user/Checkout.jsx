@@ -1,19 +1,28 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Container, Typography, Box, Button, TextField } from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { useParams } from "react-router-dom";
 
 import BillingForm from "../../components/forms/bill/BillingForm";
 
-const CheckoutPage = () => {
-  const selectedProduct = useSelector((state) => state.product.selectedProduct);
 
-  if (!selectedProduct) {
-    return <div>No product selected!</div>;
+const CheckoutPage = () => {
+  const { id } = useParams();
+ 
+  // Fetch data from Redux
+  const selectedProduct = useSelector((state) => state.product.selectedProduct);
+  const cartData = useSelector((state) => state.cart.products[0]);
+
+  // Determine which data to show based on the id parameter
+  const productToCheckout = id === "1" ? selectedProduct : cartData;
+
+  if (!productToCheckout) {
+    return <div>Something went wrong!</div>;
   }
 
   const handleCheckout = () => {
-    console.log("Order placed for", selectedProduct);
+    console.log("Order placed for", productToCheckout);
   };
 
   return (
@@ -27,24 +36,25 @@ const CheckoutPage = () => {
         <Typography variant="h6">Product Details</Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Typography variant="body1">{selectedProduct.name}</Typography>
+            <Typography variant="body1">
+              {productToCheckout?.name || productToCheckout?.items?.[0]?.name}
+            </Typography>
             <Typography variant="body2" color="textSecondary">
-              Variant: {selectedProduct.variants[0]?.color}
+              {productToCheckout?.variants
+                ? `Variant: ${productToCheckout?.variants[0]?.color}`
+                : ""}
             </Typography>
             <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>
-              ₹{selectedProduct.price}
+              ₹{productToCheckout?.price || productToCheckout?.totalAmount}
             </Typography>
           </Grid>
         </Grid>
       </Box>
 
-      {/* 
-      Billing form 
-      */}
+      {/* Billing Form */}
       <BillingForm />
-      {/* 
-      Billing form 
-      */}
+  {/* Billing Form */}
+    
     </Container>
   );
 };

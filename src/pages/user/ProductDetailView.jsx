@@ -1,59 +1,69 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Container,
-  Typography,
-  CardMedia,
-  Button,
-  Box,
-} from "@mui/material";
+import { Container, Typography, CardMedia, Button, Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useDispatch } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { useFetchProductById } from "../../services/product";
 import CustomButton from "../../components/buttons/CustomButton";
 import { setSelectedProduct } from "../../store/slices/productSlice";
-
+import { useAddToCart } from "../../services/cart";
 
 const ProductDetailView = () => {
   const { productId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data: product, isLoading, isError } = useFetchProductById(productId);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [mainImage, setMainImage] = useState("");
+
+  const { data: product, isLoading, isError } = useFetchProductById(productId);
+  const { mutate: addToCart, isPending: addToCartPending } = useAddToCart();
 
   // Initialize the selected variant when product is available
   useEffect(() => {
     if (product?.variants?.length > 0) {
       setSelectedVariant(product.variants[0]);
-      setMainImage(product.variants[0]?.images[0]?.url); 
+      setMainImage(product.variants[0]?.images[0]?.url);
     }
   }, [product]);
 
+  //Varinat selection
   const handleVariantClick = (variant) => {
     setSelectedVariant(variant);
-    setMainImage(variant.images[0]?.url); 
+    setMainImage(variant.images[0]?.url);
   };
 
+  // Select main image in sub image
   const handleThumbnailClick = (imageUrl) => {
     setMainImage(imageUrl);
   };
 
-
   const handleBuyNow = () => {
-    dispatch(setSelectedProduct(product)); 
-    navigate("/checkout"); 
+    dispatch(setSelectedProduct(product));
+    navigate(`/checkout/${1}`);
   };
+
+  const handleAddToCart =()=>{
+    if (selectedVariant) {
+        const payload = {
+          variantId: selectedVariant._id,
+          price: product.price, 
+          quantity :1
+        }
+        console.log(payload)
+        addToCart(payload)
+    
+    };
+   
+  }
 
   if (isLoading) return <div>Loading product...</div>;
   if (isError) return <div>Failed to load product.</div>;
 
   return (
-    <Container  sx={{ mt: 4, mb: 4 }}>
+    <Container sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={4}>
-      
-
         {/* Thumbnail images of the selected variant */}
         <Grid item xs={12} md={6}>
           <Typography variant="h6" sx={{ mt: 2 }}>
@@ -72,14 +82,14 @@ const ProductDetailView = () => {
                   cursor: "pointer",
                   border: mainImage === image.url ? "2px solid black" : "none",
                 }}
-                onClick={() => handleThumbnailClick(image.url)} 
+                onClick={() => handleThumbnailClick(image.url)}
               />
             ))}
           </Box>
         </Grid>
 
-          {/* Image Section */}
-          <Grid item xs={12} md={6}>
+        {/* Image Section */}
+        <Grid item xs={12} md={6}>
           {mainImage && (
             <CardMedia
               component="img"
@@ -140,16 +150,25 @@ const ProductDetailView = () => {
 
           {/* Actions */}
           <Box sx={{ mt: 4, display: "flex", width: "100%", gap: "2rem" }}>
-            <CustomButton text="Buy Now" color="primary" onClick={handleBuyNow}  />
             <CustomButton
-              text="Add To Cart"
-              sx={{
-                backgroundColor: "#ff5722",
-                "&:hover": {
-                  backgroundColor: "#ff784e",
-                },
-              }}
+              text="Buy Now"
+              color="primary"
+              onClick={handleBuyNow}
             />
+            {addToCartPending ? (
+              <CircularProgress color="#ff5722" />
+            ) : (
+              <CustomButton
+                text="Add To Cart"
+                sx={{
+                  backgroundColor: "#ff5722",
+                  "&:hover": {
+                    backgroundColor: "#ff784e",
+                  },
+                }}
+                onClick={handleAddToCart}
+              />
+            )}
           </Box>
         </Grid>
       </Grid>
