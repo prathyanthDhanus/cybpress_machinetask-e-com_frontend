@@ -1,79 +1,62 @@
 import React from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useFormik } from "formik";
 
 import CustomButton from "../../buttons/CustomButton";
-import { billingInitialValues, billingSchema } from "./billingSchema"; 
+import CustomInputField from "../../inputs/CustomInput";
+import { billingInitialValues, billingSchema } from "./billingSchema";
 
-const BillingForm = ({ onSubmit }) => {
+const BillingForm = () => {
   const authFormik = useFormik({
     initialValues: billingInitialValues,
     validationSchema: billingSchema,
-    onSubmit: (values) => {
-
-      onSubmit(values);
-      console.log(values);
+    onSubmit: async (values) => {
+    
     },
   });
 
   return (
-    <Box sx={{ mb: 4 }}>
+    <Box sx={{ mb: 4, maxWidth: "500px", margin: "0 auto", width: "100%" }}>
       <Typography variant="h6" gutterBottom>
         Billing Information
       </Typography>
 
       <form onSubmit={authFormik.handleSubmit}>
-        <TextField
-          fullWidth
-          label="Full Name"
-          variant="outlined"
+        <CustomInputField
           name="fullName"
+          label="Full Name"
           value={authFormik.values.fullName}
           onChange={authFormik.handleChange}
           onBlur={authFormik.handleBlur}
           error={authFormik.touched.fullName && Boolean(authFormik.errors.fullName)}
           helperText={authFormik.touched.fullName && authFormik.errors.fullName}
-          sx={{ mb: 2 }}
-          required
         />
-        <TextField
-          fullWidth
-          label="Email Address"
-          variant="outlined"
+        <CustomInputField
           name="email"
+          label="Email Address"
           value={authFormik.values.email}
           onChange={authFormik.handleChange}
           onBlur={authFormik.handleBlur}
           error={authFormik.touched.email && Boolean(authFormik.errors.email)}
           helperText={authFormik.touched.email && authFormik.errors.email}
-          sx={{ mb: 2 }}
-          required
         />
-        <TextField
-          fullWidth
-          label="Shipping Address"
-          variant="outlined"
+        <CustomInputField
           name="address"
+          label="Shipping Address"
           value={authFormik.values.address}
           onChange={authFormik.handleChange}
           onBlur={authFormik.handleBlur}
           error={authFormik.touched.address && Boolean(authFormik.errors.address)}
           helperText={authFormik.touched.address && authFormik.errors.address}
-          sx={{ mb: 2 }}
-          required
         />
-        <TextField
-          fullWidth
-          label="Phone Number"
-          variant="outlined"
+        <CustomInputField
           name="phone"
+          label="Phone Number"
           value={authFormik.values.phone}
           onChange={authFormik.handleChange}
           onBlur={authFormik.handleBlur}
           error={authFormik.touched.phone && Boolean(authFormik.errors.phone)}
           helperText={authFormik.touched.phone && authFormik.errors.phone}
-          sx={{ mb: 2 }}
-          required
         />
 
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
