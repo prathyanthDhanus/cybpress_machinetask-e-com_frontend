@@ -12,6 +12,9 @@ import {
 import Grid from "@mui/material/Grid2";
 import colors from "../../assets/color/color"; 
 
+import dummyimage from "../../assets/images/133967.jpg";
+import dummyimage2 from "../../assets/images/rb_2151386699.png";
+
 const LandingPage = () => {
   return (
     <div>
@@ -44,7 +47,7 @@ const LandingPage = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <img
-                src="https://via.placeholder.com/400"
+                src={dummyimage}
                 alt="Hero"
                 style={{ width: "100%", borderRadius: "10px" }}
               />
@@ -68,7 +71,7 @@ const LandingPage = () => {
                 <Grid item xs={12} sm={6} md={3} key={index}>
                   <Card sx={{ maxWidth: 345 }}>
                     <img
-                      src="https://via.placeholder.com/150"
+                      src={dummyimage2}
                       alt={product}
                       style={{ width: "100%" }}
                     />
