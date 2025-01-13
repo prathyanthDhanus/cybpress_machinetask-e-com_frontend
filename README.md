@@ -1,4 +1,4 @@
-# Quiz App
+# E-Commerce
 
 An e-commerce frontend is the user interface (UI) of an online shopping platform, designed to provide an intuitive and visually appealing experience for customers. It typically includes product listings, detailed product pages, a shopping cart, and checkout functionality. Key features include product search and filtering, user authentication, responsive design for mobile and desktop views, and smooth navigation for browsing products. The frontend communicates with the backend to retrieve product data, manage user sessions, and process orders, ensuring a seamless and interactive shopping experience.
 
