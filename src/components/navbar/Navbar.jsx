@@ -11,6 +11,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { logoutUser } from "../../store/slices/useSlice";
+import CustomButton from "../buttons/CustomButton";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -56,6 +60,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Navbar() {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.accessToken); 
+  const handleLoginLogout = () => {
+    if (user) {
+      dispatch(logoutUser());
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -93,6 +108,14 @@ export default function Navbar() {
           <AccountCircleIcon
             sx={{ mx: 2, cursor: "pointer" }}
             // onClick={() => navigate("/profile")}
+          />
+            
+          <CustomButton
+            type="submit"
+            text= {user ? "Logout" : "Login"} 
+            color="red"
+            onClick={handleLoginLogout}
+            
           />
         </Toolbar>
       </AppBar>

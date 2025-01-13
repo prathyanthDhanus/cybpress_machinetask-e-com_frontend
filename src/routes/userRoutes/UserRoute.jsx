@@ -5,13 +5,16 @@ import UnauthorizedPage from "../../pages/common/Unauthorized";
 import PageNotFound from "../../pages/common/PageNotFound";
 import MainLoader from "../../components/loader/mainLoader/MainLoader";
 import UserLayout from "../../layouts/UserLayout";
+import ProtectedRoute from "./ProtectedRoute";
 
 const LandingPage = lazy(() => import("../../pages/landingPage/LandingPage"));
 const LoginPage = lazy(() => import("../../pages/auth/LoginPage"));
 const Register = lazy(() => import("../../pages/auth/RegisterPage"));
 const HomePage = lazy(() => import("../../pages/user/HomePage"));
-const ViewAllProducts  = lazy(() => import("../../pages/user/ViewAllProducts"));
-const ProductDetailView = lazy(() => import("../../pages/user/ProductDetailView"));
+const ViewAllProducts = lazy(() => import("../../pages/user/ViewAllProducts"));
+const ProductDetailView = lazy(() =>
+  import("../../pages/user/ProductDetailView")
+);
 const Checkout = lazy(() => import("../../pages/user/Checkout"));
 const ViewCart = lazy(() => import("../../pages/user/ViewCart"));
 
@@ -79,7 +82,7 @@ export const userRouter = createBrowserRouter([
         path: "/checkout/:id",
         element: (
           <Suspense fallback={<MainLoader />}>
-            <Checkout />
+            <ProtectedRoute element={<Checkout />} allowedRoles={["user"]} />
           </Suspense>
         ),
       },
@@ -87,7 +90,7 @@ export const userRouter = createBrowserRouter([
         path: "/cart",
         element: (
           <Suspense fallback={<MainLoader />}>
-            <ViewCart />
+            <ProtectedRoute element={<ViewCart />} allowedRoles={["user"]} />
           </Suspense>
         ),
       },

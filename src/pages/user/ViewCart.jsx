@@ -11,7 +11,12 @@ import { useDeleteCart } from "../../services/cart";
 
 const ViewCart = () => {
   const navigate = useNavigate();
-  const { data: fetchCartData, isLoading, isError, refetch: refetchCartData } = useFetchCart();
+  const {
+    data: fetchCartData,
+    isLoading,
+    isError,
+    refetch: refetchCartData,
+  } = useFetchCart();
   const { mutate: deleteCart, isSuccess: successDeleteCart } = useDeleteCart();
   const dispatch = useDispatch();
   const cartData = useSelector((state) => state.cart.products[0]);
@@ -48,28 +53,35 @@ const ViewCart = () => {
     setCartItems(updatedItems);
     // Update Redux with updated items and total amount
     dispatch(
-      setCartProducts([{
-        ...cartData,
-        items: updatedItems,
-        totalAmount: updatedItems.reduce((acc, item) => acc + item.price, 0),
-      }])
+      setCartProducts([
+        {
+          ...cartData,
+          items: updatedItems,
+          totalAmount: updatedItems.reduce((acc, item) => acc + item.price, 0),
+        },
+      ])
     );
   };
 
   const handleCheckout = () => {
     // Dispatch total amount and cart items to Redux before navigating
     dispatch(
-      setCartProducts([{
-        ...cartData,
-        items: cartItems,
-        totalAmount,
-      }])
+      setCartProducts([
+        {
+          ...cartData,
+          items: cartItems,
+          totalAmount,
+        },
+      ])
     );
     navigate(`/checkout/${2}`);
   };
 
   const handleDelete = (variantId) => {
     deleteCart(variantId);
+    // Immediately update the cart state to reflect the deleted item
+    setCartItems(cartItems.filter((item) => item.variantId._id !== variantId));
+    // Refetch the data if necessary after deletion
     if (successDeleteCart) {
       refetchCartData();
     }
@@ -79,9 +91,12 @@ const ViewCart = () => {
   if (isError) return <div>Failed to load cart items.</div>;
 
   return (
-    <Grid container spacing={4} sx={{ mt: 4 }}>
+    <Box sx={{ flexGrow: 1 }}>
+
+   
+    <Grid   spacing={4}>
       {/* Left Side: Cart Items */}
-      <Grid item xs={12} md={8} lg={8} xl={8}>
+      <Grid  xs={12} sm={8}  md={8} lg={8} >
         <Typography variant="h5" gutterBottom>
           Your Cart
         </Typography>
@@ -97,6 +112,7 @@ const ViewCart = () => {
               p: 2,
               border: "1px solid #ddd",
               borderRadius: "8px",
+              
             }}
           >
             {/* Product Image */}
@@ -118,7 +134,9 @@ const ViewCart = () => {
               <Button
                 variant="contained"
                 size="small"
-                onClick={() => handleQuantityChange(item.variantId._id, "decrease")}
+                onClick={() =>
+                  handleQuantityChange(item.variantId._id, "decrease")
+                }
               >
                 -
               </Button>
@@ -126,7 +144,9 @@ const ViewCart = () => {
               <Button
                 variant="contained"
                 size="small"
-                onClick={() => handleQuantityChange(item.variantId._id, "increase")}
+                onClick={() =>
+                  handleQuantityChange(item.variantId._id, "increase")
+                }
               >
                 +
               </Button>
@@ -140,7 +160,7 @@ const ViewCart = () => {
       </Grid>
 
       {/* Right Side: Checkout Summary */}
-      <Grid item xs={12} md={4} lg={4} xl={4}>
+      <Grid  xs={12} sm={4} md={4} lg={4}>
         <Box
           sx={{
             p: 4,
@@ -154,16 +174,16 @@ const ViewCart = () => {
           </Typography>
           <Divider sx={{ mb: 2 }} />
           <Typography variant="body1">
-            Total Items: {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
+            Total Items:{" "}
+            {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
           </Typography>
           <Typography variant="body1" sx={{ mt: 1 }}>
             Total Amount: ₹{totalAmount}
           </Typography>
           <Button
             variant="contained"
-            color="primary"
             fullWidth
-            sx={{ mt: 4 }}
+            sx={{ mt: 4 ,backgroundColor:"red" , color:"white"}}
             onClick={handleCheckout}
           >
             Proceed to Checkout
@@ -171,6 +191,7 @@ const ViewCart = () => {
         </Box>
       </Grid>
     </Grid>
+    </Box>
   );
 };
 
