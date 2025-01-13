@@ -36,13 +36,11 @@ export const roleValidation = Yup.string()
 export const loginInitialValues = {
   email: "",
   password: "",
-  role: "user",
 };
 
 export const loginSchema = Yup.object().shape({
   email: emailValidation,
   password: passwordValidation,
-  role: roleValidation,
 });
 //--------------------- login section end --------------------
 

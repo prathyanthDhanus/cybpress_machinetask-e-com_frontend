@@ -9,6 +9,9 @@ import UserLayout from "../../layouts/UserLayout";
 const LandingPage = lazy(() => import("../../pages/landingPage/LandingPage"));
 const LoginPage = lazy(() => import("../../pages/auth/LoginPage"));
 const Register = lazy(() => import("../../pages/auth/RegisterPage"));
+const HomePage = lazy(() => import("../../pages/user/HomePage"));
+const ViewAllProducts  = lazy(() => import("../../pages/user/ViewAllProducts"));
+const ProductDetailView = lazy(() => import("../../pages/user/ProductDetailView"));
 
 export const userRouter = createBrowserRouter([
   {
@@ -43,6 +46,30 @@ export const userRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<MainLoader />}>
             <Register />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/home",
+        element: (
+          <Suspense fallback={<MainLoader />}>
+            <HomePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/categories/:categoryName/:categoryId/products",
+        element: (
+          <Suspense fallback={<MainLoader />}>
+            <ViewAllProducts />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/product/:productId",
+        element: (
+          <Suspense fallback={<MainLoader />}>
+            <ProductDetailView />
           </Suspense>
         ),
       },

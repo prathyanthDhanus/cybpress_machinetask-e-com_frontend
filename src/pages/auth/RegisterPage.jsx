@@ -36,7 +36,7 @@ const RegisterPage = () => {
             style={{
               width: "100%",
               objectFit: "cover",
-              maxWidth: "400px",
+              maxWidth: "500px",
             }}
           />
         </Grid>

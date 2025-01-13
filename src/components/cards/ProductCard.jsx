@@ -1,15 +1,18 @@
 import React from 'react';
 import { Card, CardContent, CardMedia, Typography, CardActionArea } from '@mui/material';
 
-const ProductCard = ({ image, title, description, price }) => {
+const ProductCard = ({ image, title, description, price,onClick }) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} onClick={onClick}>
       <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
+          height="180"
           image={image}
           alt={title}
+          sx={{
+            objectFit: 'contain',
+          }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -19,7 +22,7 @@ const ProductCard = ({ image, title, description, price }) => {
             {description}
           </Typography>
           <Typography variant="h6" sx={{ marginTop: '10px' }}>
-            ${price}
+            {price}
           </Typography>
         </CardContent>
       </CardActionArea>
