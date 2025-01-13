@@ -1,5 +1,6 @@
 import React from "react";
 import { useFormik } from "formik";
+import CircularProgress from '@mui/material/CircularProgress';
 
 import CustomButton from "../../buttons/CustomButton";
 import CustomInputField from "../../inputs/CustomInput";
@@ -7,7 +8,7 @@ import { loginInitialValues, loginSchema } from "./authValidation";
 import { useLogin } from "../../../services/user";
 
 const LoginForm = () => {
-  const { mutate } = useLogin();
+  const { mutate,isPending } = useLogin();
 
   //formik validation
   const authFormik = useFormik({
@@ -44,12 +45,18 @@ const LoginForm = () => {
           }
           helperText={authFormik.touched.password && authFormik.errors.password}
         />
-        <CustomButton
-          type="submit"
-          text="Login"
-          color="primary"
-          sx={{ width: "100%", marginTop: "1rem", padding: "0.8rem" }}
-        />
+        {isPending ? (
+            <CircularProgress/>
+        ) : (
+            <CustomButton
+            type="submit"
+            text="Login"
+            color="primary"
+            sx={{ width: "100%", marginTop: "1rem", padding: "0.8rem" }}
+          />
+
+        )}
+      
       </form>
     </>
   );

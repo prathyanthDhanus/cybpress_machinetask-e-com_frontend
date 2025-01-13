@@ -10,20 +10,35 @@ import {
   Toolbar,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import colors from "../../assets/color/color"; 
+import colors from "../../assets/color/color";
+import { useSelector } from "react-redux";
 
 import dummyimage from "../../assets/images/133967.jpg";
 import dummyimage2 from "../../assets/images/rb_2151386699.png";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user.accessToken);
+
+  const handleStartShopping = () => {
+    if (user) {
+      navigate("/home");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <div>
-    
-
       {/* Hero Section */}
       <Box sx={{ backgroundColor: colors.secondary, padding: "50px 0" }}>
         <Container>
-          <Grid container spacing={4} justifyContent="center" alignItems="center">
+          <Grid
+            container
+            spacing={4}
+            justifyContent="center"
+            alignItems="center"
+          >
             <Grid item xs={12} md={6}>
               <Typography variant="h3" sx={{ fontWeight: "bold" }}>
                 Welcome to Our E-Commerce Store
@@ -41,6 +56,7 @@ const LandingPage = () => {
                     backgroundColor: colors.buttonHover,
                   },
                 }}
+                onClick={handleStartShopping}
               >
                 Start Shopping
               </Button>
@@ -61,7 +77,11 @@ const LandingPage = () => {
         <Container>
           <Typography
             variant="h4"
-            sx={{ fontWeight: "bold", marginBottom: "30px", color: colors.textPrimary }}
+            sx={{
+              fontWeight: "bold",
+              marginBottom: "30px",
+              color: colors.textPrimary,
+            }}
           >
             Featured Products
           </Typography>
